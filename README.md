@@ -1,6 +1,8 @@
-# IRONLOG
+![Logo](frontend/assets/Logo.png)
 
 A minimalist, full-stack workout tracker for resistance training. Log your sets, track your volume, and watch your progress compound over time.
+
+## [Check It Out Here](https://iron-log-eta-gilt.vercel.app/)
 
 ---
 
