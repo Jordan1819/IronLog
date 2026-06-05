@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import AuthPage from './pages/AuthPage'
 import Dashboard from './pages/Dashboard'
 import LogWorkout from './pages/LogWorkout'
+import ChangePassword from './pages/ChangePassword'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -46,6 +47,9 @@ export default function App() {
         } />
         <Route path="/log" element={
           <ProtectedRoute><LogWorkout /></ProtectedRoute>
+        } />
+        <Route path="/change-password" element={
+          <ProtectedRoute><ChangePassword /></ProtectedRoute>
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

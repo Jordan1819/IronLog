@@ -95,6 +95,26 @@ export default function Navbar() {
             {user?.email?.split('@')[0]}
           </span>
 
+          <NavLink
+            to="/change-password"
+            style={({ isActive }) => ({
+              padding: '7px 14px',
+              borderRadius: 'var(--radius)',
+              fontFamily: 'var(--font-body)',
+              fontSize: '12px',
+              fontWeight: '600',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              transition: 'all 150ms ease',
+              background: isActive ? 'var(--gold-dim)' : 'transparent',
+              color: isActive ? 'var(--gold)' : 'var(--white-dim)',
+              border: isActive ? '1px solid var(--gold-border)' : '1px solid rgba(255,255,255,0.1)',
+            })}
+          >
+            Password
+          </NavLink>
+
           <button
             onClick={handleSignOut}
             style={{
