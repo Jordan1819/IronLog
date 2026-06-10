@@ -25,6 +25,7 @@ IRONLOG gives you two things: a place to log your work, and a dashboard that sho
 **Accounts**
 - Each user has a private account — no one else can see your data
 - Row Level Security enforced at the database level, not just the application layer
+- Users can delete their account and all workout data from the username menu
 
 ---
 
@@ -79,6 +80,16 @@ cd ironlog
 2. Go to **SQL Editor → New query**, paste the contents of `supabase/schema.sql`, and run it
 3. Go to **Project Settings → API** and copy your **Project URL** and **anon/public key**
 4. *(Optional)* Go to **Authentication → Providers → Email** and disable **Confirm email** for easier local testing
+
+### 2.1 Deploy the account deletion function
+
+Account deletion requires a Supabase Edge Function because deleting an auth user needs the service role key, which must never be exposed in the browser.
+
+```bash
+supabase functions deploy delete-account
+```
+
+Supabase automatically provides `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to deployed Edge Functions.
 
 ### 3. Configure environment variables
 
