@@ -149,7 +149,7 @@ export default function Dashboard() {
             }}>
               Total Volume Lifted
             </p>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', flexWrap: 'wrap' }}>
               <span className="stat-number" style={{ fontSize: '64px' }}>
                 {formatLbs(stats.totalLbs)}
               </span>
@@ -176,7 +176,7 @@ export default function Dashboard() {
             <p style={{ fontSize: '12px', color: 'var(--white-muted)', marginBottom: '24px' }}>
               Total lbs lifted (reps × weight)
             </p>
-            <div style={{ width: '100%', height: '260px' }}>
+            <div style={{ width: '100%', minWidth: 0, height: '260px' }}>
               <ResponsiveContainer>
                 <BarChart
                   data={stats.exerciseData}
@@ -226,7 +226,7 @@ export default function Dashboard() {
                   borderBottom: i < stats.exerciseData.length - 1
                     ? '1px solid rgba(255,255,255,0.05)' : 'none',
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
                     <span style={{
                       fontFamily: 'var(--font-mono)',
                       fontSize: '11px',
@@ -235,9 +235,14 @@ export default function Dashboard() {
                     }}>
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span style={{ fontSize: '15px', fontWeight: 500 }}>{ex.exercise}</span>
+                    <span style={{
+                      fontSize: '15px',
+                      fontWeight: 500,
+                      minWidth: 0,
+                      overflowWrap: 'anywhere',
+                    }}>{ex.exercise}</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px', flexShrink: 0, marginLeft: '12px' }}>
                     <span style={{
                       fontFamily: 'var(--font-display)',
                       fontSize: '22px',
@@ -261,8 +266,8 @@ export default function Dashboard() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {recentSessions.map(session => (
                   <div key={session.date} className="card" style={{ padding: '16px 20px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+                      <div style={{ minWidth: 0 }}>
                         <p style={{
                           fontFamily: 'var(--font-mono)',
                           fontSize: '12px',
@@ -273,11 +278,11 @@ export default function Dashboard() {
                             weekday: 'short', month: 'short', day: 'numeric'
                           })}
                         </p>
-                        <p style={{ fontSize: '13px', color: 'var(--white-dim)' }}>
+                        <p style={{ fontSize: '13px', color: 'var(--white-dim)', overflowWrap: 'anywhere' }}>
                           {session.exercises.join(' · ')}
                         </p>
                       </div>
-                      <div style={{ textAlign: 'right' }}>
+                      <div style={{ textAlign: 'right', flexShrink: 0 }}>
                         <span style={{
                           fontFamily: 'var(--font-display)',
                           fontSize: '24px',

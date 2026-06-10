@@ -54,7 +54,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav style={{
+    <nav className="app-navbar" style={{
       position: 'sticky',
       top: 0,
       zIndex: 100,
@@ -62,7 +62,7 @@ export default function Navbar() {
       backdropFilter: 'blur(16px)',
       borderBottom: '1px solid rgba(255,255,255,0.06)',
     }}>
-      <div style={{
+      <div className="app-navbar-inner" style={{
         maxWidth: '1000px',
         margin: '0 auto',
         padding: '0 24px',
@@ -72,7 +72,7 @@ export default function Navbar() {
         justifyContent: 'space-between',
       }}>
         {/* Logo */}
-        <span style={{
+        <span className="app-navbar-logo" style={{
           fontFamily: 'var(--font-display)',
           fontSize: '24px',
           letterSpacing: '0.12em',
@@ -82,7 +82,7 @@ export default function Navbar() {
         </span>
 
         {/* Nav links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="app-navbar-links" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <NavLink
             to="/"
             end
@@ -101,7 +101,8 @@ export default function Navbar() {
               border: isActive ? '1px solid var(--gold-border)' : '1px solid transparent',
             })}
           >
-            Dashboard
+            <span className="nav-label-full">Dashboard</span>
+            <span className="nav-label-short">Home</span>
           </NavLink>
           <NavLink
             to="/log"
@@ -120,17 +121,18 @@ export default function Navbar() {
               border: isActive ? '1px solid var(--gold-border)' : '1px solid transparent',
             })}
           >
-            Log Workout
+            <span className="nav-label-full">Log Workout</span>
+            <span className="nav-label-short">Log</span>
           </NavLink>
 
-          <div style={{
+          <div className="app-navbar-divider" style={{
             width: '1px',
             height: '20px',
             background: 'rgba(255,255,255,0.1)',
             margin: '0 8px',
           }} />
 
-          <div ref={menuRef} style={{ position: 'relative' }}>
+          <div className="app-account-menu" ref={menuRef} style={{ position: 'relative' }}>
             <button
               onClick={() => {
                 setMenuOpen(open => !open)
@@ -175,6 +177,7 @@ export default function Navbar() {
 
             {menuOpen && (
               <div
+                className="app-account-dropdown"
                 role="menu"
                 style={{
                   position: 'absolute',

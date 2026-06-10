@@ -38,6 +38,7 @@ body {
   font-weight: 400;
   line-height: 1.5;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Subtle noise texture overlay */
@@ -164,6 +165,7 @@ h1, h2, h3 {
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 24px 80px;
+  width: 100%;
 }
 
 /* Animations */
@@ -199,4 +201,144 @@ h1, h2, h3 {
   color: var(--gold);
   letter-spacing: 0.02em;
   line-height: 1;
+}
+
+.nav-label-short {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .app-navbar-inner {
+    height: auto !important;
+    min-height: 60px;
+    padding: 10px 14px !important;
+    align-items: stretch !important;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .app-navbar-logo {
+    align-self: flex-start;
+    font-size: 22px !important;
+  }
+
+  .app-navbar-links {
+    width: 100%;
+    justify-content: space-between;
+    gap: 6px !important;
+  }
+
+  .app-navbar-links > a {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 8px 8px !important;
+    text-align: center;
+    font-size: 12px !important;
+  }
+
+  .app-navbar-divider {
+    display: none;
+  }
+
+  .app-account-menu {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .app-account-menu > button {
+    width: 100%;
+    max-width: none !important;
+    justify-content: center;
+    padding: 8px 8px !important;
+  }
+
+  .app-account-dropdown {
+    left: auto !important;
+    right: 0 !important;
+    min-width: min(260px, calc(100vw - 28px)) !important;
+  }
+
+  .nav-label-full {
+    display: none;
+  }
+
+  .nav-label-short {
+    display: inline;
+  }
+
+  .page {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 56px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: var(--radius);
+  }
+
+  h1 {
+    font-size: 34px !important;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  .stat-number {
+    font-size: 48px !important;
+  }
+
+  .btn {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .log-header,
+  .exercise-header {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .exercise-actions {
+    justify-content: space-between;
+    padding-top: 0 !important;
+  }
+
+  .exercise-actions .btn {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-navbar-inner {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .app-navbar-links {
+    gap: 4px !important;
+  }
+
+  .app-navbar-links > a,
+  .app-account-menu > button {
+    letter-spacing: 0.03em !important;
+  }
+
+  .page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .set-row,
+  .set-row-heading {
+    grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1fr) 28px !important;
+    gap: 6px !important;
+  }
+
+  .set-row .input {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    font-size: 13px !important;
+  }
 }

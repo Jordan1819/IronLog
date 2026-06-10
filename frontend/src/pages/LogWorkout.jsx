@@ -9,9 +9,9 @@ const DEFAULT_WEIGHT = ''
 
 function SetRow({ setNum, reps, weight, onChange, onRemove, canRemove }) {
   return (
-    <div style={{
+    <div className="set-row" style={{
       display: 'grid',
-      gridTemplateColumns: '40px 1fr 1fr 36px',
+      gridTemplateColumns: '40px minmax(0, 1fr) minmax(0, 1fr) 36px',
       gap: '10px',
       alignItems: 'center',
       padding: '10px 0',
@@ -115,8 +115,8 @@ function ExerciseBlock({ block, index, onChange, onRemove, canRemove, exerciseSu
       animation: `fadeUp 0.35s ease ${index * 0.05}s both`,
     }}>
       {/* Exercise header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '20px' }}>
-        <div style={{ flex: 1, position: 'relative' }}>
+      <div className="exercise-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '20px' }}>
+        <div style={{ flex: 1, minWidth: 0, position: 'relative' }}>
           <label className="input-label">Exercise Name</label>
           <input
             ref={inputRef}
@@ -177,7 +177,7 @@ function ExerciseBlock({ block, index, onChange, onRemove, canRemove, exerciseSu
           )}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '20px' }}>
+        <div className="exercise-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '20px' }}>
           {setVolume > 0 && (
             <span style={{
               fontFamily: 'var(--font-mono)',
@@ -201,9 +201,9 @@ function ExerciseBlock({ block, index, onChange, onRemove, canRemove, exerciseSu
       </div>
 
       {/* Sets header */}
-      <div style={{
+      <div className="set-row-heading" style={{
         display: 'grid',
-        gridTemplateColumns: '40px 1fr 1fr 36px',
+        gridTemplateColumns: '40px minmax(0, 1fr) minmax(0, 1fr) 36px',
         gap: '10px',
         paddingBottom: '6px',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
@@ -421,7 +421,7 @@ export default function LogWorkout() {
   return (
     <div className="page" style={{ paddingTop: '48px' }}>
       {/* Header */}
-      <div style={{ marginBottom: '40px', animation: 'fadeUp 0.4s ease forwards', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+      <div className="log-header" style={{ marginBottom: '40px', animation: 'fadeUp 0.4s ease forwards', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
         <div>
           <h1 style={{ fontSize: '40px' }}>
             LOG <span style={{ color: 'var(--gold)' }}>WORKOUT</span>
