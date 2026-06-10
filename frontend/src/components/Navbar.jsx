@@ -1,13 +1,56 @@
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 export default function Navbar() {
-  const { signOut, user } = useAuth()
+  const { deleteAccount, signOut, user } = useAuth()
   const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [menuError, setMenuError] = useState('')
+  const menuRef = useRef(null)
+  const username = user?.email?.split('@')[0]
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false)
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   const handleSignOut = async () => {
     await signOut()
     navigate('/auth')
+  }
+
+  const handleDeleteAccount = async () => {
+    setMenuError('')
+    const confirmed = window.confirm(
+      'Delete your IRONLOG account and all workout data? This cannot be undone.'
+    )
+
+    if (!confirmed) return
+
+    setDeleting(true)
+    try {
+      await deleteAccount()
+      navigate('/auth', { replace: true })
+    } catch (err) {
+      setMenuError(err.message || 'Could not delete your account. Please try again.')
+      setDeleting(false)
+    }
   }
 
   return (
@@ -87,61 +130,144 @@ export default function Navbar() {
             margin: '0 8px',
           }} />
 
-          <span style={{
-            fontSize: '12px',
-            color: 'var(--white-muted)',
-            fontFamily: 'var(--font-mono)',
-          }}>
-            {user?.email?.split('@')[0]}
-          </span>
+          <div ref={menuRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => {
+                setMenuOpen(open => !open)
+                setMenuError('')
+              }}
+              aria-expanded={menuOpen}
+              aria-haspopup="menu"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '7px 12px',
+                background: menuOpen ? 'var(--gold-dim)' : 'transparent',
+                border: menuOpen ? '1px solid var(--gold-border)' : '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 'var(--radius)',
+                color: menuOpen ? 'var(--gold)' : 'var(--white-dim)',
+                fontSize: '12px',
+                fontWeight: '600',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                transition: 'all 150ms ease',
+                fontFamily: 'var(--font-body)',
+                maxWidth: '180px',
+              }}
+            >
+              <span style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}>
+                {username}
+              </span>
+              <span style={{
+                fontSize: '10px',
+                transform: menuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 150ms ease',
+              }}>
+                v
+              </span>
+            </button>
 
-          <NavLink
-            to="/change-password"
-            style={({ isActive }) => ({
-              padding: '7px 14px',
-              borderRadius: 'var(--radius)',
-              fontFamily: 'var(--font-body)',
-              fontSize: '12px',
-              fontWeight: '600',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              transition: 'all 150ms ease',
-              background: isActive ? 'var(--gold-dim)' : 'transparent',
-              color: isActive ? 'var(--gold)' : 'var(--white-dim)',
-              border: isActive ? '1px solid var(--gold-border)' : '1px solid rgba(255,255,255,0.1)',
-            })}
-          >
-            Password
-          </NavLink>
+            {menuOpen && (
+              <div
+                role="menu"
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 'calc(100% + 8px)',
+                  minWidth: '220px',
+                  padding: '8px',
+                  background: 'var(--bg-card)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 'var(--radius)',
+                  boxShadow: '0 14px 32px rgba(0,0,0,0.45)',
+                  zIndex: 200,
+                }}
+              >
+                <NavLink
+                  to="/change-password"
+                  role="menuitem"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: 'block',
+                    padding: '10px 12px',
+                    borderRadius: 'var(--radius)',
+                    color: 'var(--white-dim)',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    transition: 'all 150ms ease',
+                  }}
+                >
+                  Change Password
+                </NavLink>
 
-          <button
-            onClick={handleSignOut}
-            style={{
-              padding: '7px 14px',
-              background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 'var(--radius)',
-              color: 'var(--white-dim)',
-              fontSize: '12px',
-              fontWeight: '600',
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-              transition: 'all 150ms ease',
-              fontFamily: 'var(--font-body)',
-            }}
-            onMouseEnter={e => {
-              e.target.style.color = 'var(--error)'
-              e.target.style.borderColor = 'rgba(224,90,90,0.4)'
-            }}
-            onMouseLeave={e => {
-              e.target.style.color = 'var(--white-dim)'
-              e.target.style.borderColor = 'rgba(255,255,255,0.1)'
-            }}
-          >
-            Sign Out
-          </button>
+                <button
+                  role="menuitem"
+                  onClick={handleSignOut}
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: 'var(--radius)',
+                    color: 'var(--white-dim)',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-body)',
+                  }}
+                >
+                  Sign Out
+                </button>
+
+                <div style={{
+                  height: '1px',
+                  background: 'rgba(255,255,255,0.08)',
+                  margin: '6px 0',
+                }} />
+
+                <button
+                  role="menuitem"
+                  onClick={handleDeleteAccount}
+                  disabled={deleting}
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    background: 'rgba(224,90,90,0.08)',
+                    border: '1px solid rgba(224,90,90,0.2)',
+                    borderRadius: 'var(--radius)',
+                    color: 'var(--error)',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    textAlign: 'left',
+                    cursor: deleting ? 'not-allowed' : 'pointer',
+                    opacity: deleting ? 0.6 : 1,
+                    fontFamily: 'var(--font-body)',
+                  }}
+                >
+                  {deleting ? 'Deleting...' : 'Delete Account & Data'}
+                </button>
+
+                {menuError && (
+                  <p style={{
+                    marginTop: '8px',
+                    color: 'var(--error)',
+                    fontSize: '12px',
+                    lineHeight: 1.35,
+                  }}>
+                    {menuError}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

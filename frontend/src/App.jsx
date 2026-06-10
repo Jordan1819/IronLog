@@ -5,6 +5,7 @@ import AuthPage from './pages/AuthPage'
 import Dashboard from './pages/Dashboard'
 import LogWorkout from './pages/LogWorkout'
 import ChangePassword from './pages/ChangePassword'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -45,6 +46,7 @@ export default function App() {
         <Route path="/" element={
           <ProtectedRoute><Dashboard /></ProtectedRoute>
         } />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/log" element={
           <ProtectedRoute><LogWorkout /></ProtectedRoute>
         } />

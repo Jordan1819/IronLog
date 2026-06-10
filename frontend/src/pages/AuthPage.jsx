@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
+import { Link } from 'react-router-dom'
 
 export default function AuthPage() {
   const { signIn, signUp } = useAuth()
@@ -93,12 +94,29 @@ export default function AuthPage() {
         <div className="card" style={{ padding: '32px' }}>
           {/* Tab toggle */}
           <div style={{
+            position: 'relative',
             display: 'flex',
             background: 'var(--bg-input)',
             borderRadius: 'var(--radius)',
             padding: '3px',
             marginBottom: '28px',
           }}>
+
+          {/* Sliding Background */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '3px',
+              bottom: '3px',
+              left: mode === 'signin' ? '3px' : '50%',
+              width: 'calc(50% - 3px)',
+              background: 'var(--bg-card)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '4px',
+              transition: 'all 250ms ease',
+            }}
+          />
+
             {['signin', 'signup'].map(m => (
               <button
                 key={m}
@@ -106,8 +124,6 @@ export default function AuthPage() {
                 style={{
                   flex: 1,
                   padding: '9px',
-                  background: mode === m ? 'var(--bg-card)' : 'transparent',
-                  border: mode === m ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent',
                   borderRadius: '4px',
                   color: mode === m ? 'var(--white)' : 'var(--white-muted)',
                   fontSize: '13px',
@@ -117,6 +133,10 @@ export default function AuthPage() {
                   cursor: 'pointer',
                   fontFamily: 'var(--font-body)',
                   transition: 'all 150ms ease',
+                  position: 'relative',
+                  zIndex: 1,
+                  background: 'transparent',
+                  border: 'none',
                 }}
               >
                 {m === 'signin' ? 'Sign In' : 'Sign Up'}
@@ -151,6 +171,28 @@ export default function AuthPage() {
               />
             </div>
           </div>
+
+          {/* Privacy policy acceptance for sign up */}
+          {mode === 'signup' && (
+            <p
+              style={{
+                  marginTop: '16px',
+                  color: 'var(--white-muted)',
+                  fontSize: '12px',
+                  lineHeight: '1.5',
+              }}
+            >
+              By creating an account, you agree to our{' '}
+              <Link
+                to="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--gold)', textDecoration: 'none' }}
+              >
+                Privacy Policy
+              </Link>.
+            </p>
+          )}
 
           {/* Error / success */}
           {error && (
