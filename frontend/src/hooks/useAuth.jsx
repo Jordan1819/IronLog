@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useMemo } from 'react'
 import { supabase } from '../lib/supabase'
 
 const AuthContext = createContext(null)
@@ -46,12 +46,25 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut()
   }
 
+  // Performance Fix: momoize context value
+
+  const value = useMemo(() => ({
+    user,
+    loading,
+    signUp,
+    signIn,
+    signOut,
+    deleteAccount,
+  }), [user, loading])
+
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signOut, deleteAccount }}>
+    <AuthContext.Provider value={{value}}>
       {children}
     </AuthContext.Provider>
   )
 }
+
+// Hook
 
 export const useAuth = () => {
   const ctx = useContext(AuthContext)
